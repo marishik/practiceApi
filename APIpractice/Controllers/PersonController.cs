@@ -8,6 +8,7 @@ namespace APIpractice.Controllers
     public class PersonResponse {
         public int StatusCode { get; set; }
         public string Message { get; set; }
+        public string InnerException { get; set; }
     }
 
     public class GetPersonResponse {
@@ -49,7 +50,8 @@ namespace APIpractice.Controllers
             catch (Exception ex) {
                 return new PersonResponse {
                     StatusCode = (int)HttpStatusCode.BadRequest,
-                    Message = ex.Message
+                    Message = $"Ошибка: {ex.Message}",
+                    InnerException = $"{ex.InnerException}"
                 };
             }
         }

@@ -26,7 +26,7 @@ namespace APIpractice.Controllers {
             _paymentService = paymentService;
         }
 
-        [HttpGet]
+        [HttpPost]
         [Route("PostPayment")]
         public async Task<PaymentResponse> PostPayment(Payment payment) {
 

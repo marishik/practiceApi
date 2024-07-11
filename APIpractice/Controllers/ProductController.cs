@@ -7,6 +7,7 @@ namespace APIpractice.Controllers {
     public class ProductResponse {
         public int StatusCode { get; set; }
         public string Message { get; set; }
+        public string InnerException { get; set; }
     }
 
     public class GetProductResponse {
@@ -44,7 +45,8 @@ namespace APIpractice.Controllers {
             } catch (Exception ex) {
                 return new ProductResponse {
                     StatusCode = (int)HttpStatusCode.BadRequest,
-                    Message = $"Ошибка: {ex.Message}"
+                    Message = $"Ошибка: {ex.Message}",
+                    InnerException = $"{ex.InnerException}"
                 };
             }
         }

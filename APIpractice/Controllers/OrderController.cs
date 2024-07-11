@@ -7,6 +7,7 @@ namespace APIpractice.Controllers {
     public class OrderResponse {
         public int StatusCode { get; set; }
         public string Message { get; set; }
+        public string InnerException { get; set; }
     }
 
     public class GetOrderResponse {
@@ -26,7 +27,7 @@ namespace APIpractice.Controllers {
             _orderService = orderService;
         }
 
-        [HttpGet]
+        [HttpPost]
         [Route("PostOrder")]
         public async Task<OrderResponse> PostOrder(Order order) {
 
@@ -46,7 +47,8 @@ namespace APIpractice.Controllers {
             } catch (Exception ex) {
                 return new OrderResponse {
                     StatusCode = (int)HttpStatusCode.BadRequest,
-                    Message = "Ошибка"
+                    Message = $"Ошибка: {ex.Message}",
+                    InnerException = $"{ex.InnerException}"
                 };
             }
         }
