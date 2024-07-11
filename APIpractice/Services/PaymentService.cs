@@ -1,5 +1,4 @@
 ﻿using APIpractice.Models;
-using System;
 
 namespace APIpractice.Services {
     public interface IPaymentService {

@@ -1,6 +1,4 @@
 ﻿using APIpractice.Models;
-using Microsoft.EntityFrameworkCore.ChangeTracking;
-using System.Data.Entity;
 
 namespace APIpractice.Services
 {
