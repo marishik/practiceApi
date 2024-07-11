@@ -13,8 +13,8 @@ namespace APIpractice.Models {
         [Column("price")]
         public decimal Price { get; set; }
 
-        [Column(TypeName = "jsonb")]
-        public Dictionary<string, object> Characteristics { get; set; }
+        [Column("model", TypeName = "jsonb")]
+        public Dictionary<string, object> Characteristics { get; set; } = new Dictionary<string, object>();
 
         [Column("record_status")]
         public RecordStatus RecordStatus { get; set; }
