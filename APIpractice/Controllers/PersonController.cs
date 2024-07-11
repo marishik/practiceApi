@@ -5,7 +5,7 @@ using System.Net;
 
 namespace APIpractice.Controllers
 {
-    public class PostPersonResponse {
+    public class PersonResponse {
         public int StatusCode { get; set; }
         public string Message { get; set; }
     }
@@ -13,47 +13,67 @@ namespace APIpractice.Controllers
     public class GetPersonResponse {
         public int StatusCode { get; set; }
         public string Message { get; set; }
-        public Person[] Humans { get; set; }
+        public Person[] Persons { get; set; }
     }
 
     [ApiController]
     [Route("[controller]")]
     public class PersonController : ControllerBase {
         private readonly ILogger<PersonController> _logger;
-        private readonly IHumanService _humanService;
+        private readonly IPersonService _personService;
 
-        public PersonController(ILogger<PersonController> logger, IHumanService humanService) {
+        public PersonController(ILogger<PersonController> logger, IPersonService personService) {
             _logger = logger;
-            _humanService = humanService;
+            _personService = personService;
         }
 
-        [HttpPost(Name = "PostHuman")]
-        public async Task<PostPersonResponse> PostHuman(Person human) {
+        [HttpPost]
+        [Route("PostPerson")]
+        public async Task<PersonResponse> PostPerson(Person person) {
             
             try {
                 if (!ModelState.IsValid) {
-                    return new PostPersonResponse {
+                    return new PersonResponse {
                         StatusCode = (int)HttpStatusCode.BadRequest,
                         Message = "Ошибка"
                     };
                 }
 
-                var res = await _humanService.AddHuman(human);
-                return new PostPersonResponse {
+                var res = await _personService.AddPerson(person);
+                return new PersonResponse {
                     StatusCode = (int)HttpStatusCode.OK,
                     Message = "Ответ успешно получен!"
                 };
             }
 
             catch (Exception ex) {
-                return new PostPersonResponse {
+                return new PersonResponse {
                     StatusCode = (int)HttpStatusCode.BadRequest,
-                    Message = "Ошибка"
+                    Message = ex.Message
                 };
             }
         }
 
-        [HttpGet(Name = "GetHuman")]
+        [HttpPut]
+        [Route("PutPerson")]
+        public async Task<PersonResponse> PutPerson(Person person) {
+            if (!ModelState.IsValid) {
+                return new PersonResponse {
+                    StatusCode = (int)HttpStatusCode.BadRequest,
+                    Message = "Ошибка"
+                };
+            }
+
+            var res = await _personService.UpdatePerson(person);
+            return new PersonResponse {
+                StatusCode = (int)HttpStatusCode.OK,
+                Message = "Ответ успешно получен!"
+            };
+        }
+
+
+        [HttpGet]
+        [Route("GetPerson")]
         public async Task<GetPersonResponse> Get() {
             if (!ModelState.IsValid) {
                 return new GetPersonResponse {
@@ -62,8 +82,25 @@ namespace APIpractice.Controllers
                 };
             }
 
-            var res = await _humanService.GetAllHumans();
+            var res = await _personService.GetAllPersons();
             return new GetPersonResponse {
+                StatusCode = (int)HttpStatusCode.OK,
+                Message = "Ответ успешно получен!"
+            };
+        }
+
+        [HttpDelete]
+        [Route("RemovePerson")]
+        public async Task<PersonResponse> RemovePerson(Person person) {
+            if (!ModelState.IsValid) {
+                return new PersonResponse {
+                    StatusCode = (int)HttpStatusCode.BadRequest,
+                    Message = "Ошибка"
+                };
+            }
+
+            var res = await _personService.RemovePerson(person);
+            return new PersonResponse {
                 StatusCode = (int)HttpStatusCode.OK,
                 Message = "Ответ успешно получен!"
             };
