@@ -5,8 +5,8 @@ namespace APIpractice
 {
     public class ApplicationContext : DbContext {
         public DbSet<Person> person { get; set; }
-        public DbSet<Payment> payments { get; set; }
-        public DbSet<Order> orders { get; set; }
+        public DbSet<Payment> payment { get; set; }
+        public DbSet<Order> order { get; set; }
         public DbSet<Product> product { get; set; }
 
         public ApplicationContext() =>

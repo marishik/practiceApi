@@ -12,6 +12,8 @@ builder.Services.AddSwaggerGen();
 builder.Services.AddDbContext<ApplicationContext>();
 
 builder.Services.AddTransient<IPersonService, PersonService>();
+builder.Services.AddTransient<IPersonService, PersonService>();
+builder.Services.AddTransient<IPersonService, PersonService>();
 
 AppContext.SetSwitch("Npgsql.EnableLegacyTimestampBehavior", true);
 //builder.Services.AddSingleton<IHumanService>(new HumanService(new ApplicationContext()));
