@@ -84,7 +84,7 @@ namespace APIpractice.Controllers {
                 Message = "Ответ успешно получен!"
             };
         }
-
+        
         [HttpDelete]
         [Route("RemovePayment")]
         public async Task<PaymentResponse> RemovePayment(Payment payment) {

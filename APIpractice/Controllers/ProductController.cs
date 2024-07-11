@@ -4,7 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 using System.Net;
 
 namespace APIpractice.Controllers {
-    public class PostProductResponse {
+    public class ProductResponse {
         public int StatusCode { get; set; }
         public string Message { get; set; }
     }
@@ -26,27 +26,44 @@ namespace APIpractice.Controllers {
 
         [HttpPost]
         [Route("PostProduct")]
-        public async Task<PostProductResponse> PostProduct(Product product) {
+        public async Task<ProductResponse> PostProduct(Product product) {
 
             try {
                 if (!ModelState.IsValid) {
-                    return new PostProductResponse {
+                    return new ProductResponse {
                         StatusCode = (int)HttpStatusCode.BadRequest,
                         Message = "Ошибка"
                     };
                 }
 
                 var res = await _productService.AddProduct(product);
-                return new PostProductResponse {
+                return new ProductResponse {
                     StatusCode = (int)HttpStatusCode.OK,
                     Message = "Ответ успешно получен!"
                 };
             } catch (Exception ex) {
-                return new PostProductResponse {
+                return new ProductResponse {
                     StatusCode = (int)HttpStatusCode.BadRequest,
                     Message = $"Ошибка: {ex.Message}"
                 };
             }
+        }
+
+        [HttpPut]
+        [Route("PutProduct")]
+        public async Task<ProductResponse> PutProduct(Product product) {
+            if (!ModelState.IsValid) {
+                return new ProductResponse {
+                    StatusCode = (int)HttpStatusCode.BadRequest,
+                    Message = "Ошибка"
+                };
+            }
+
+            var res = await _productService.UpdateProduct(product);
+            return new ProductResponse {
+                StatusCode = (int)HttpStatusCode.OK,
+                Message = "Ответ успешно получен!"
+            };
         }
 
         [HttpPost]
@@ -61,6 +78,23 @@ namespace APIpractice.Controllers {
 
             var res = await _productService.GetAllProducts();
             return new GetProductResponse {
+                StatusCode = (int)HttpStatusCode.OK,
+                Message = "Ответ успешно получен!"
+            };
+        }
+
+        [HttpDelete]
+        [Route("RemoveProduct")]
+        public async Task<ProductResponse> RemoveProduct(Product product) {
+            if (!ModelState.IsValid) {
+                return new ProductResponse {
+                    StatusCode = (int)HttpStatusCode.BadRequest,
+                    Message = "Ошибка"
+                };
+            }
+
+            var res = await _productService.RemoveProduct(product);
+            return new ProductResponse {
                 StatusCode = (int)HttpStatusCode.OK,
                 Message = "Ответ успешно получен!"
             };
