@@ -13,8 +13,6 @@ namespace APIpractice.Models
         [Required]
         public string Name { get; set; }
         public DateTime DateOfBirth { get; set; }
-        public decimal MoneyInTheAcc { get; set; }
-        public int? carid { get; set; }
-        public int? headphonesid { get; set; }
+        public RecordStatus RecordStatus { get; set; }
     }
 }

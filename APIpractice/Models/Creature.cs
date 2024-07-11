@@ -2,7 +2,7 @@
 {
     public class Creature<TId, TStatus>
     {
-        public TId id { get; set; }
+        public TId Id { get; set; }
         public TStatus Status { get; set; }
     }
 }
