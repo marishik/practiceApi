@@ -29,7 +29,6 @@ namespace APIpractice.Controllers {
         [HttpPost]
         [Route("PostPayment")]
         public async Task<PaymentResponse> PostPayment(Payment payment) {
-
             try {
                 if (!ModelState.IsValid) {
                     return new PaymentResponse {
@@ -81,7 +80,8 @@ namespace APIpractice.Controllers {
             var res = await _paymentService.GetAllPayments();
             return new GetPaymentResponse {
                 StatusCode = (int)HttpStatusCode.OK,
-                Message = "Ответ успешно получен!"
+                Message = "Ответ успешно получен!",
+                Payments = res.ToArray()
             };
         }
         

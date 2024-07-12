@@ -30,7 +30,6 @@ namespace APIpractice.Controllers {
         [HttpPost]
         [Route("PostOrder")]
         public async Task<OrderResponse> PostOrder(Order order) {
-
             try {
                 if (!ModelState.IsValid) {
                     return new OrderResponse {
@@ -71,8 +70,8 @@ namespace APIpractice.Controllers {
         }
 
         [HttpGet]
-        [Route("GetOrder")]
-        public async Task<GetOrderResponse> Get() {
+        [Route("GetOrders")]
+        public async Task<GetOrderResponse> GetAllOrders() {
             if (!ModelState.IsValid) {
                 return new GetOrderResponse {
                     StatusCode = (int)HttpStatusCode.BadRequest,
@@ -81,6 +80,24 @@ namespace APIpractice.Controllers {
             }
 
             var res = await _orderService.GetAllOrders();
+            return new GetOrderResponse {
+                StatusCode = (int)HttpStatusCode.OK,
+                Message = "Ответ успешно получен!",
+                Orders = res.ToArray()
+            };
+        }
+
+        [HttpGet]
+        [Route("GetOrder")]
+        public async Task<GetOrderResponse> GetOrder(Order order) {
+            if (!ModelState.IsValid) {
+                return new GetOrderResponse {
+                    StatusCode = (int)HttpStatusCode.BadRequest,
+                    Message = "Ошибка"
+                };
+            }
+
+            var res = await _orderService.GetOrder(order.Id);
             return new GetOrderResponse {
                 StatusCode = (int)HttpStatusCode.OK,
                 Message = "Ответ успешно получен!"

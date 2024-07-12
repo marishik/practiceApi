@@ -16,6 +16,8 @@ namespace APIpractice.Controllers {
         public Product[] Products { get; set; }
     }
 
+    [ApiController]
+    [Route("[controller]")]
     public class ProductController : ControllerBase {
         private readonly ILogger<ProductController> _logger;
         private readonly IProductService _productService;
@@ -27,8 +29,7 @@ namespace APIpractice.Controllers {
 
         [HttpPost]
         [Route("PostProduct")]
-        public async Task<ProductResponse> PostProduct(Product product) {
-
+        public async Task<ProductResponse> PostProduct(Product product)  {
             try {
                 if (!ModelState.IsValid) {
                     return new ProductResponse {
@@ -68,7 +69,7 @@ namespace APIpractice.Controllers {
             };
         }
 
-        [HttpPost]
+        [HttpGet]
         [Route("GetProduct")]
         public async Task<GetProductResponse> Get() {
             if (!ModelState.IsValid) {
@@ -81,7 +82,8 @@ namespace APIpractice.Controllers {
             var res = await _productService.GetAllProducts();
             return new GetProductResponse {
                 StatusCode = (int)HttpStatusCode.OK,
-                Message = "Ответ успешно получен!"
+                Message = "Ответ успешно получен!",
+                Products = res.ToArray()
             };
         }
 

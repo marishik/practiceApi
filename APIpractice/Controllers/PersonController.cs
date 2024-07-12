@@ -30,7 +30,7 @@ namespace APIpractice.Controllers
 
         [HttpPost]
         [Route("PostPerson")]
-        public async Task<PersonResponse> PostPerson(Person person) {
+        public async Task<PersonResponse> PostPerson(Person person){
             
             try {
                 if (!ModelState.IsValid) {
@@ -87,7 +87,8 @@ namespace APIpractice.Controllers
             var res = await _personService.GetAllPersons();
             return new GetPersonResponse {
                 StatusCode = (int)HttpStatusCode.OK,
-                Message = "Ответ успешно получен!"
+                Message = "Ответ успешно получен!",
+                Persons = res.ToArray()
             };
         }
 
