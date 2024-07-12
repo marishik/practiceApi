@@ -6,7 +6,7 @@ namespace APIpractice.Services
         Task<Person> AddPerson(Person person);
         Task<Person> UpdatePerson(Person person);
         Task<List<Person>> GetAllPersons();
-        Task<Person> GetHuman(int id);
+        Task<Person> GetPerson(int id);
         Task<Person> RemovePerson(Person person);
     }
 
@@ -33,7 +33,7 @@ namespace APIpractice.Services
             return _context.person.ToList();
         }
 
-        public async Task<Person> GetHuman(int id) {
+        public async Task<Person> GetPerson(int id) {
             return _context.person.Where(h => h.Id == id).First();
         }
 

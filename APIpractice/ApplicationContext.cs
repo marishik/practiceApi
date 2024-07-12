@@ -13,6 +13,6 @@ namespace APIpractice
             Database.EnsureCreated();
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder) =>
-            optionsBuilder.UseNpgsql("Host=localhost;Port=5433;Database=postgres;Username=postgres;Password=practice");
+            optionsBuilder.UseNpgsql("Host=192.168.98.78;Port=5433;Database=postgres;Username=postgres;Password=practice");
     }
 }
