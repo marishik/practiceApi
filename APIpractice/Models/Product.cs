@@ -10,11 +10,14 @@ namespace APIpractice.Models {
         [Column("name")]
         public string Name { get; set; }
 
+        [Column("category")]
+        public string Category { get; set; }
+
         [Column("price")]
         public decimal Price { get; set; }
 
-        [Column("model", TypeName = "jsonb")]
-        public Dictionary<string, object> Characteristics { get; set; } = new Dictionary<string, object>();
+/*        [Column("model", TypeName = "jsonb")]
+        public Dictionary<string, object> Characteristics { get; set; }*/
 
         [Column("record_status")]
         public RecordStatus RecordStatus { get; set; }

@@ -20,5 +20,8 @@ namespace APIpractice.Models
         
         [Column("record_status")]
         public RecordStatus RecordStatus { get; set; }
+
+        [Column("email")]
+        public string Email { get; set; }
     }
 }
