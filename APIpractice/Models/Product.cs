@@ -18,9 +18,6 @@ namespace APIpractice.Models {
         [Column("price")]
         public decimal Price { get; set; }
 
-/*        [Column("model", TypeName = "jsonb")]
-        public Dictionary<string, object> Characteristics { get; set; }*/
-
         [Column("record_status")]
         public RecordStatus RecordStatus { get; set; }
     }
