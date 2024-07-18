@@ -92,6 +92,24 @@ namespace APIpractice.Controllers
             };
         }
 
+        [HttpGet]
+        [Route(nameof(GetPersonByFilter))]
+        public GetPersonResponse GetPersonByFilter(Func<Person, bool> filter) {
+            if (!ModelState.IsValid) {
+                return new GetPersonResponse {
+                    StatusCode = (int)HttpStatusCode.BadRequest,
+                    Message = "Ошибка"
+                };
+            }
+
+            var res = _personService.GetPersonsByFilter(filter);
+            return new GetPersonResponse {
+                StatusCode = (int)HttpStatusCode.OK,
+                Message = "Ответ успешно получен!",
+                Persons = res
+            };
+        }
+
         [HttpDelete]
         [Route("RemovePerson")]
         public async Task<PersonResponse> RemovePerson(Person person) {

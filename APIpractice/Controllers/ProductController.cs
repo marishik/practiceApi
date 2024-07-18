@@ -87,6 +87,24 @@ namespace APIpractice.Controllers {
             };
         }
 
+        [HttpGet]
+        [Route(nameof(GetProductsByFilter))]
+        public GetProductResponse GetProductsByFilter(Func<Product, bool> filter) {
+            if (!ModelState.IsValid) {
+                return new GetProductResponse {
+                    StatusCode = (int)HttpStatusCode.BadRequest,
+                    Message = "Ошибка"
+                };
+            }
+
+            var res = _productService.GetProductsByFilter(filter);
+            return new GetProductResponse {
+                StatusCode = (int)HttpStatusCode.OK,
+                Message = "Ответ успешно получен!",
+                Products = res
+            };
+        }
+
         [HttpDelete]
         [Route("RemoveProduct")]
         public async Task<ProductResponse> RemoveProduct(Product product) {

@@ -88,8 +88,8 @@ namespace APIpractice.Controllers {
         }
 
         [HttpGet]
-        [Route("GetOrder")]
-        public async Task<GetOrderResponse> GetOrder(Order order) {
+        [Route(nameof(GetOrdersByFilter))]
+        public GetOrderResponse GetOrdersByFilter(Func<Order, bool> filter) {
             if (!ModelState.IsValid) {
                 return new GetOrderResponse {
                     StatusCode = (int)HttpStatusCode.BadRequest,
@@ -97,27 +97,11 @@ namespace APIpractice.Controllers {
                 };
             }
 
-            var res = await _orderService.GetOrder(order.Id);
+            var res = _orderService.GetOrdersByFilter(filter);
             return new GetOrderResponse {
                 StatusCode = (int)HttpStatusCode.OK,
-                Message = "Ответ успешно получен!"
-            };
-        }
-
-        [HttpDelete]
-        [Route("RemoveOrder")]
-        public async Task<OrderResponse> RemoveOrder(Order order) {
-            if (!ModelState.IsValid) {
-                return new OrderResponse {
-                    StatusCode = (int)HttpStatusCode.BadRequest,
-                    Message = "Ошибка"
-                };
-            }
-
-            var res = await _orderService.RemoveOrder(order);
-            return new OrderResponse {
-                StatusCode = (int)HttpStatusCode.OK,
-                Message = "Ответ успешно получен!"
+                Message = "Ответ успешно получен!",
+                Orders = res
             };
         }
     }

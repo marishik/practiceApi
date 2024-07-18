@@ -84,21 +84,22 @@ namespace APIpractice.Controllers {
                 Payments = res.ToArray()
             };
         }
-        
-        [HttpDelete]
-        [Route("RemovePayment")]
-        public async Task<PaymentResponse> RemovePayment(Payment payment) {
+
+        [HttpGet]
+        [Route(nameof(GetPaymentByFilter))]
+        public GetPaymentResponse GetPaymentByFilter(Func<Payment, bool> filter) {
             if (!ModelState.IsValid) {
-                return new PaymentResponse {
+                return new GetPaymentResponse {
                     StatusCode = (int)HttpStatusCode.BadRequest,
                     Message = "Ошибка"
                 };
             }
 
-            var res = await _paymentService.RemovePayment(payment);
-            return new PaymentResponse {
+            var res = _paymentService.GetPaymentsByFilter(filter);
+            return new GetPaymentResponse {
                 StatusCode = (int)HttpStatusCode.OK,
-                Message = "Ответ успешно получен!"
+                Message = "Ответ успешно получен!",
+                Payments = res
             };
         }
     }
