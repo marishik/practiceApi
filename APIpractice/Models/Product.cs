@@ -2,6 +2,8 @@
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace APIpractice.Models {
+
+    [Table("product")]
     public class Product {
         [Required]
         [Column("id")]

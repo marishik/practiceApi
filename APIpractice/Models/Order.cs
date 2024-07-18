@@ -2,6 +2,8 @@
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace APIpractice.Models {
+
+    [Table("order")]
     public class Order {
         [Required]
         [Column("id")]
@@ -13,7 +15,8 @@ namespace APIpractice.Models {
         [Column("person_id")]
         public int PersonId { get; set; }
 
-        [Column("record_status")]
-        public RecordStatus RecordStatus { get; set; }
+        [Column("date")]
+        public DateTime Date { get; set; }
+
     }
 }

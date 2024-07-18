@@ -2,6 +2,8 @@
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace APIpractice.Models {
+
+    [Table("payment")]
     public class Payment {
         [Required]
         [Column("id")]
@@ -18,8 +20,5 @@ namespace APIpractice.Models {
 
         [Column("count")]
         public int Count { get; set; }
-
-        [Column("record_status")]
-        public RecordStatus RecordStatus { get; set; }
     }
 }

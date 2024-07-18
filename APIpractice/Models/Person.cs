@@ -9,6 +9,8 @@ namespace APIpractice.Models
         NotWorker
     }
 
+
+    [Table("person")]
     public class Person : Creature<int, Status>
     {
         [Required]
