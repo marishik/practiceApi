@@ -6,8 +6,7 @@ namespace APIpractice.Services {
         Task<Order> AddOrder(Order order);
         Task<Order> UpdateOrder(Order order);
         Task<List<Order>> GetAllOrders();
-        Task<Order> GetOrder(int id);
-        Task<Order> RemoveOrder(Order order);
+        Order[] GetOrdersByFilter(Func<Order, bool> filter);
     }
 
     public class OrderService: IOrderService {
@@ -18,31 +17,22 @@ namespace APIpractice.Services {
         }
 
         public async Task<Order> AddOrder(Order order) {
-            var res = await _context.order.AddAsync(order);
+            var res = await _context.Orders.AddAsync(order);
             await _context.SaveChangesAsync();
             return res.Entity;
         }
 
-        public async Task<List<Order>> GetAllOrders() {
-            return _context.order.ToList();
-        }
+        public async Task<List<Order>> GetAllOrders() 
+            => _context.Orders.ToList();
 
-        public async Task<Order> GetOrder(int id) {
-            return _context.order.Where(h => h.Id == id).First();
-        }
+        public Order[] GetOrdersByFilter(Func<Order, bool> filter) 
+            => _context.Orders.Where(filter).ToArray();
 
         public async Task<Order> UpdateOrder(Order order) {
-            var res = _context.order.Update(order);
+            var res = _context.Orders.Update(order);
             await _context.SaveChangesAsync();
             return res.Entity;
         }
 
-        public async Task<Order> RemoveOrder(Order order) {
-            _context.order.Where(p => p == order)
-                .First().RecordStatus = RecordStatus.Inactive;
-
-            await _context.SaveChangesAsync();
-            return _context.order.Where(p => p == order).First();
-        }
     }
 }

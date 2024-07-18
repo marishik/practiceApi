@@ -5,8 +5,7 @@ namespace APIpractice.Services {
         Task<Payment> AddPayment(Payment payment);
         Task<Payment> UpdatePayment(Payment payment);
         Task<List<Payment>> GetAllPayments();
-        Task<Payment> GetHuman(int id);
-        Task<Payment> RemovePayment(Payment payment);
+        Payment[] GetPaymentsByFilter(Func<Payment, bool> filter);
     }
 
     public class PaymentService: IPaymentService {
@@ -17,33 +16,19 @@ namespace APIpractice.Services {
         }
 
         public async Task<Payment> AddPayment(Payment payment) {
-            var res = await _context.payment.AddAsync(payment);
+            var res = await _context.Payments.AddAsync(payment);
             await _context.SaveChangesAsync();
             return res.Entity;
         }
 
-        public async Task<List<Payment>> GetAllPayments() {
-            return _context.payment.ToList();
-        }
+        public async Task<List<Payment>> GetAllPayments() 
+            => _context.Payments.ToList();
 
-        public Task<Payment> GetHuman(int id) {
-            throw new NotImplementedException();
-        }
-
-        public async Task<Payment> GetPayment(int id) {
-            return _context.payment.Where(h => h.Id == id).First();
-        }
-
-        public async Task<Payment> RemovePayment(Payment payment) {
-            _context.payment.Where(p => p == payment)
-                .First().RecordStatus = RecordStatus.Inactive;
-
-            await _context.SaveChangesAsync();
-            return _context.payment.Where(p => p == payment).First();
-        }
+        public Payment[] GetPaymentsByFilter(Func<Payment, bool> filter) 
+            => _context.Payments.Where(filter).ToArray();
 
         public async Task<Payment> UpdatePayment(Payment payment) {
-            var res = _context.payment.Update(payment);
+            var res = _context.Payments.Update(payment);
             await _context.SaveChangesAsync();
             return res.Entity;
         }

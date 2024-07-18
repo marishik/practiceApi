@@ -1,11 +1,12 @@
 ﻿using APIpractice.Models;
+using System.Linq;
 
 namespace APIpractice.Services {
     public interface IProductService {
         Task<Product> AddProduct(Product product);
         Task<Product> UpdateProduct(Product product);
         Task<List<Product>> GetAllProducts();
-        Task<Product> GetProduct(int id);
+        Product[] GetProductsByFilter(Func<Product, bool> filter);
         Task<Product> RemoveProduct(Product product);
     }
 
@@ -17,31 +18,29 @@ namespace APIpractice.Services {
         }
 
         public async Task<Product> AddProduct(Product product) {
-            var res = await _context.product.AddAsync(product);
+            var res = await _context.Products.AddAsync(product);
             await _context.SaveChangesAsync();
             return res.Entity;
-        }
-
-        public async Task<List<Product>> GetAllProducts() {
-            return _context.product.ToList();
-        }
-
-        public async Task<Product> GetProduct(int id) {
-            return _context.product.Where(p => p.Id == id).First();
-        }
-
-        public async Task<Product> RemoveProduct(Product product) {
-            _context.product.Where(p => p == product)
-                .First().RecordStatus = RecordStatus.Inactive;
-
-            await _context.SaveChangesAsync();
-            return _context.product.Where(p => p == product).First();
         }
 
         public async Task<Product> UpdateProduct(Product product) {
-            var res = _context.product.Update(product);
+            var res = _context.Products.Update(product);
             await _context.SaveChangesAsync();
             return res.Entity;
+        }
+
+        public async Task<List<Product>> GetAllProducts()
+            => _context.Products.ToList();
+
+        public Product[] GetProductsByFilter(Func<Product, bool> filter)
+            => _context.Products.Where(filter).ToArray();
+
+        public async Task<Product> RemoveProduct(Product product) {
+            _context.Products.Where(p => p == product)
+                .First().RecordStatus = RecordStatus.Inactive;
+
+            await _context.SaveChangesAsync();
+            return _context.Products.Where(p => p == product).First();
         }
     }
 }
