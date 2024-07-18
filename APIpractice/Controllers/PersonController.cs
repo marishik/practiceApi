@@ -93,8 +93,8 @@ namespace APIpractice.Controllers
         }
 
         [HttpGet]
-        [Route(nameof(GetPersonByFilter))]
-        public GetPersonResponse GetPersonByFilter(Func<Person, bool> filter) {
+        [Route(nameof(GetPersonById))]
+        public GetPersonResponse GetPersonById(int id) {
             if (!ModelState.IsValid) {
                 return new GetPersonResponse {
                     StatusCode = (int)HttpStatusCode.BadRequest,
@@ -102,7 +102,43 @@ namespace APIpractice.Controllers
                 };
             }
 
-            var res = _personService.GetPersonsByFilter(filter);
+            var res = _personService.GetPersonsByFilter(p => p.Id == id);
+            return new GetPersonResponse {
+                StatusCode = (int)HttpStatusCode.OK,
+                Message = "Ответ успешно получен!",
+                Persons = res
+            };
+        }
+
+        [HttpGet]
+        [Route(nameof(GetPersonByEmail))]
+        public GetPersonResponse GetPersonByEmail(string email) {
+            if (!ModelState.IsValid) {
+                return new GetPersonResponse {
+                    StatusCode = (int)HttpStatusCode.BadRequest,
+                    Message = "Ошибка"
+                };
+            }
+
+            var res = _personService.GetPersonsByFilter(p => p.Email == email);
+            return new GetPersonResponse {
+                StatusCode = (int)HttpStatusCode.OK,
+                Message = "Ответ успешно получен!",
+                Persons = res
+            };
+        }
+
+        [HttpGet]
+        [Route(nameof(GetPersonByStatus))]
+        public GetPersonResponse GetPersonByStatus(RecordStatus status) {
+            if (!ModelState.IsValid) {
+                return new GetPersonResponse {
+                    StatusCode = (int)HttpStatusCode.BadRequest,
+                    Message = "Ошибка"
+                };
+            }
+
+            var res = _personService.GetPersonsByFilter(p => p.RecordStatus == status);
             return new GetPersonResponse {
                 StatusCode = (int)HttpStatusCode.OK,
                 Message = "Ответ успешно получен!",

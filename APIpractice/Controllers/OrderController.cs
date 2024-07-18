@@ -88,8 +88,8 @@ namespace APIpractice.Controllers {
         }
 
         [HttpGet]
-        [Route(nameof(GetOrdersByFilter))]
-        public GetOrderResponse GetOrdersByFilter(Func<Order, bool> filter) {
+        [Route(nameof(GetOrdersById))]
+        public GetOrderResponse GetOrdersById(int id) {
             if (!ModelState.IsValid) {
                 return new GetOrderResponse {
                     StatusCode = (int)HttpStatusCode.BadRequest,
@@ -97,7 +97,25 @@ namespace APIpractice.Controllers {
                 };
             }
 
-            var res = _orderService.GetOrdersByFilter(filter);
+            var res = _orderService.GetOrdersByFilter(o => o.Id == id);
+            return new GetOrderResponse {
+                StatusCode = (int)HttpStatusCode.OK,
+                Message = "Ответ успешно получен!",
+                Orders = res
+            };
+        }
+
+        [HttpGet]
+        [Route(nameof(GetOrdersByPersonId))]
+        public GetOrderResponse GetOrdersByPersonId(int personId) {
+            if (!ModelState.IsValid) {
+                return new GetOrderResponse {
+                    StatusCode = (int)HttpStatusCode.BadRequest,
+                    Message = "Ошибка"
+                };
+            }
+
+            var res = _orderService.GetOrdersByFilter(o => o.PersonId == personId);
             return new GetOrderResponse {
                 StatusCode = (int)HttpStatusCode.OK,
                 Message = "Ответ успешно получен!",

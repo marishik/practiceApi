@@ -86,8 +86,8 @@ namespace APIpractice.Controllers {
         }
 
         [HttpGet]
-        [Route(nameof(GetPaymentByFilter))]
-        public GetPaymentResponse GetPaymentByFilter(Func<Payment, bool> filter) {
+        [Route(nameof(GetPaymentById))]
+        public GetPaymentResponse GetPaymentById(int id) {
             if (!ModelState.IsValid) {
                 return new GetPaymentResponse {
                     StatusCode = (int)HttpStatusCode.BadRequest,
@@ -95,7 +95,43 @@ namespace APIpractice.Controllers {
                 };
             }
 
-            var res = _paymentService.GetPaymentsByFilter(filter);
+            var res = _paymentService.GetPaymentsByFilter(p => p.Id == id);
+            return new GetPaymentResponse {
+                StatusCode = (int)HttpStatusCode.OK,
+                Message = "Ответ успешно получен!",
+                Payments = res
+            };
+        }
+
+        [HttpGet]
+        [Route(nameof(GetPaymentByOrderId))]
+        public GetPaymentResponse GetPaymentByOrderId(int orderId) {
+            if (!ModelState.IsValid) {
+                return new GetPaymentResponse {
+                    StatusCode = (int)HttpStatusCode.BadRequest,
+                    Message = "Ошибка"
+                };
+            }
+
+            var res = _paymentService.GetPaymentsByFilter(p => p.OrderId == orderId);
+            return new GetPaymentResponse {
+                StatusCode = (int)HttpStatusCode.OK,
+                Message = "Ответ успешно получен!",
+                Payments = res
+            };
+        }
+
+        [HttpGet]
+        [Route(nameof(GetPaymentByProductId))]
+        public GetPaymentResponse GetPaymentByProductId(int productId) {
+            if (!ModelState.IsValid) {
+                return new GetPaymentResponse {
+                    StatusCode = (int)HttpStatusCode.BadRequest,
+                    Message = "Ошибка"
+                };
+            }
+
+            var res = _paymentService.GetPaymentsByFilter(p => p.ProductId == productId);
             return new GetPaymentResponse {
                 StatusCode = (int)HttpStatusCode.OK,
                 Message = "Ответ успешно получен!",

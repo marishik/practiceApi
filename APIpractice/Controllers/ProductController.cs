@@ -88,8 +88,8 @@ namespace APIpractice.Controllers {
         }
 
         [HttpGet]
-        [Route(nameof(GetProductsByFilter))]
-        public GetProductResponse GetProductsByFilter(Func<Product, bool> filter) {
+        [Route(nameof(GetProductsById))]
+        public GetProductResponse GetProductsById(int id) {
             if (!ModelState.IsValid) {
                 return new GetProductResponse {
                     StatusCode = (int)HttpStatusCode.BadRequest,
@@ -97,7 +97,61 @@ namespace APIpractice.Controllers {
                 };
             }
 
-            var res = _productService.GetProductsByFilter(filter);
+            var res = _productService.GetProductsByFilter(p => p.Id == id);
+            return new GetProductResponse {
+                StatusCode = (int)HttpStatusCode.OK,
+                Message = "Ответ успешно получен!",
+                Products = res
+            };
+        }
+
+        [HttpGet]
+        [Route(nameof(GetProductsByCategory))]
+        public GetProductResponse GetProductsByCategory(string category) {
+            if (!ModelState.IsValid) {
+                return new GetProductResponse {
+                    StatusCode = (int)HttpStatusCode.BadRequest,
+                    Message = "Ошибка"
+                };
+            }
+
+            var res = _productService.GetProductsByFilter(p => p.Category == category);
+            return new GetProductResponse {
+                StatusCode = (int)HttpStatusCode.OK,
+                Message = "Ответ успешно получен!",
+                Products = res
+            };
+        }
+
+        [HttpGet]
+        [Route(nameof(GetProductsByPrice))]
+        public GetProductResponse GetProductsByPrice(decimal price) {
+            if (!ModelState.IsValid) {
+                return new GetProductResponse {
+                    StatusCode = (int)HttpStatusCode.BadRequest,
+                    Message = "Ошибка"
+                };
+            }
+
+            var res = _productService.GetProductsByFilter(p => p.Price == price);
+            return new GetProductResponse {
+                StatusCode = (int)HttpStatusCode.OK,
+                Message = "Ответ успешно получен!",
+                Products = res
+            };
+        }
+
+        [HttpGet]
+        [Route(nameof(GetProductsByStatus))]
+        public GetProductResponse GetProductsByStatus(RecordStatus status) {
+            if (!ModelState.IsValid) {
+                return new GetProductResponse {
+                    StatusCode = (int)HttpStatusCode.BadRequest,
+                    Message = "Ошибка"
+                };
+            }
+
+            var res = _productService.GetProductsByFilter(p => p.RecordStatus == status);
             return new GetProductResponse {
                 StatusCode = (int)HttpStatusCode.OK,
                 Message = "Ответ успешно получен!",
