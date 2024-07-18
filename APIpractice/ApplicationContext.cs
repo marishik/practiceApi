@@ -4,10 +4,10 @@ using Microsoft.EntityFrameworkCore;
 namespace APIpractice
 {
     public class ApplicationContext : DbContext {
-        public DbSet<Person> person { get; set; }
-        public DbSet<Payment> payment { get; set; }
-        public DbSet<Order> order { get; set; }
-        public DbSet<Product> product { get; set; }
+        public DbSet<Person> Persons { get; set; }
+        public DbSet<Payment> Payments { get; set; }
+        public DbSet<Order> Orders { get; set; } 
+        public DbSet<Product> Products { get; set; }
 
         public ApplicationContext() =>
             Database.EnsureCreated();
